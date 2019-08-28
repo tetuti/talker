@@ -21,8 +21,8 @@ module.exports = {
         name: `ÖVA ORD`,
         short_name: `öo`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#87ceeb`,
+        theme_color: `#87ceeb`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
