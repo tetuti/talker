@@ -7,9 +7,7 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      {
-        typeof window !== `undefined` && <VoiceReq/>
-      }
+      <VoiceReq/>
     </Layout>
   )
 }
