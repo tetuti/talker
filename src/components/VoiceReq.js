@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react"
-import { useSpeechRecognition } from "react-speech-kit"
+//import { useSpeechRecognition } from "react-speech-kit"
+import useSpeechRecognition from "../hooks/useSpeechRecognition"
 
 const initialState = []
 
