@@ -1,13 +1,12 @@
 import React, { useState, useReducer } from "react"
+import { useSpeechRecognition } from "react-speech-kit"
 
 const initialState = []
 
 const reducer = (state, action) => {
-	const reactSpeechKit = typeof window !== `undefined` ? require("react-speech-kit") : null
-	console.log(reactSpeechKit)
-  if (!reactSpeechKit) {
-    return null
-  }
+	if (typeof window !== `undefined`) {
+		return null
+	} 
   const { type, payload } = action
   switch (type) {
     case "ADD_WORD":
@@ -31,7 +30,7 @@ const reducer = (state, action) => {
 const VoiceReq = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [input, setInput] = useState("")
-  const { listen, listening, stop, supported } = reactSpeechKit.useSpeechRecognition({
+  const { listen, listening, stop, supported } = useSpeechRecognition({
     onResult: result => {
       dispatch({ type: "REMOVE_WORD", payload: result })
     },

@@ -1,12 +1,13 @@
-import React, { useState, useReducer } from "react"
+import React from "react"
 
 import Layout from "../components/layout"
-import VoiceReq from "../components/VoiceReq"
+import VoiceReq from "../components/VoiceReq";
 
 const IndexPage = () => {
+
   return (
     <Layout>
-      <VoiceReq />
+      <VoiceReq/>
     </Layout>
   )
 }
