@@ -1,21 +1,54 @@
-import React from "react"
-import { Link } from "gatsby"
+import React, { useState, useReducer } from "react"
+import { useSpeechRecognition } from "react-speech-kit"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
 
-const IndexPage = () => (
+const initialState = []
+
+const reducer = (state, action) => {
+  const { type, payload } = action
+  switch (type) {
+    case 'ADD_WORD':
+      return [...state, payload]
+    case 'REMOVE_WORD':
+      const index = state.indexOf(payload)
+      console.log({
+        index: index,
+        payload: payload
+      })
+      return index !== -1 ? [...state.slice(0, index), ...state.slice(index + 1)] : state 
+    case 'CLEAR_WORDS':
+      return []
+    default:
+      return state
+  }
+}
+
+const IndexPage = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const [input, setInput] = useState('')
+  const { listen, listening, stop } = useSpeechRecognition({
+    onResult: result => {
+      dispatch({type: 'REMOVE_WORD', payload: result})
+    }
+  })
+
+  const toggle = listening ? stop : () => listen({lang: 'sv-SE'})
+
+  return (
   <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    <h1 onClick = {toggle}>{ !listening ? '⏺️' : '⏹️'}️</h1>
+    <input value = {input} onChange = {event => setInput(event.target.value)}/>
+    <button onClick = {() => dispatch({type: 'ADD_WORD', payload: input})}>Lägg till ord</button>
+    <button onClick = {() => dispatch({type: 'CLEAR_WORDS'})}>Rensa</button>
+    { state.length !== 0 && (
+      <>
+        <h1>Säg</h1>
+        {state.map((word, index) => <h2 key = {index}>{word}</h2>)}
+      </>
+    )}
+    
   </Layout>
-)
+)}
 
 export default IndexPage
