@@ -51,7 +51,7 @@ const VoiceReq = () => {
           />
           <button
             onClick={() => {
-				dispatch({ type: "ADD_WORD", payload: input })
+				dispatch({ type: "ADD_WORD", payload: input.toLowerCase() })
 				setInput('')
 			}}
           >
