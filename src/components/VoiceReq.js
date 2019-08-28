@@ -50,7 +50,10 @@ const VoiceReq = () => {
             onChange={event => setInput(event.target.value)}
           />
           <button
-            onClick={() => dispatch({ type: "ADD_WORD", payload: input })}
+            onClick={() => {
+				dispatch({ type: "ADD_WORD", payload: input })
+				setInput('')
+			}}
           >
             Lägg till ord
           </button>
