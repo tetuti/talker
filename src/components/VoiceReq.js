@@ -4,6 +4,7 @@ const initialState = []
 
 const reducer = (state, action) => {
 	const reactSpeechKit = typeof window !== `undefined` ? require("react-speech-kit") : null
+	console.log(reactSpeechKit)
   if (!reactSpeechKit) {
     return null
   }
