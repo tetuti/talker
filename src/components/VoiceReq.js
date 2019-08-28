@@ -4,9 +4,6 @@ import { useSpeechRecognition } from "react-speech-kit"
 const initialState = []
 
 const reducer = (state, action) => {
-	if (typeof window !== `undefined`) {
-		return null
-	} 
   const { type, payload } = action
   switch (type) {
     case "ADD_WORD":
