@@ -25,7 +25,7 @@ const IndexPage = () => {
                 {data.allContentfulLesson.edges.map(edge => {
                     const { node } = edge
                     const { title } = node
-                    return <Link to={getSlug(title)}>{title}</Link>
+                    return <Link to={`/${getSlug(title)}`}>{title}</Link>
                 })}
             </section>
         </Layout>
