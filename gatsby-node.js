@@ -1,5 +1,4 @@
 const path = require(`path`)
-const { getSlug } = require(`./src/utils`)
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
     if (stage === 'build-html') {
