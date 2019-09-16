@@ -23,7 +23,7 @@ exports.createPages = async ({ actions, graphql }) => {
             allContentfulLesson(limit: 10) {
                 edges {
                     node {
-                        id
+                        slug
                         title
                         words {
                             text
@@ -41,12 +41,11 @@ exports.createPages = async ({ actions, graphql }) => {
 
     data.allContentfulLesson.edges.forEach(edge => {
         const { node } = edge
-        const { id, title, words } = node
+        const { slug, title, words } = node
         createPage({
-            path: `${getSlug(title)}`,
+            path: `${slug}`,
             component: path.resolve(`./src/templates/lesson.js`),
             context: {
-                id: id,
                 title: title,
                 words: words,
             },

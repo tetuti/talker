@@ -16,7 +16,7 @@ const reducer = (state, action) => {
 }
 
 const Lesson = ({ title, words }) => {
-    const [state, dispatch] = useReducer(reducer, [...words])
+    const [wordsToPronounce, dispatch] = useReducer(reducer, [...words])
     const [transcript, setTranscript] = useState('')
     const { listen, listening, stop } = useSpeechRecognition({
         onResult: result => {
@@ -24,18 +24,37 @@ const Lesson = ({ title, words }) => {
             dispatch({ type: 'ATTEMPT_CHALLENGE', payload: result })
         },
     })
+    const CurrentChallenge = challenge => {
+        const {
+            text,
+            image: {
+                file: { url },
+            },
+        } = challenge
+
+        return (
+            <figure className='image is-square'>
+                <img alt={text} src={url} />
+            </figure>
+        )
+    }
 
     const toggle = listening ? stop : () => listen({ lang: 'sv-SE' })
 
     return (
         <>
-            <section className='section'>
+            <article className='section'>
                 <h1 className='title'>{title}</h1>
+                <button onClick={toggle} className={`button is-fullwidth is-large ${!listening ? 'is-primary' : 'is-danger'}`}>
                 <Icon
                     path={!listening ? mdiMicrophone : mdiMicrophoneOff}
-                    size={5}
-                    onClick={toggle}
+                    size={1}
+
+                    color='white'
+                    
                 />
+                </button>
+                <br/>
                 <div className={`control ${listening && 'is-loading'}`}>
                     <input
                         value={transcript}
@@ -43,25 +62,29 @@ const Lesson = ({ title, words }) => {
                         type='text'
                         placeholder='Vad jag hörde...'
                         readOnly
+                        disabled
                     />
                 </div>
-                <hr />
-                <div className='container columns'>
-                    {state.length > 0 ? (
-                        state.map((word, key) => (
-                            <div key={key} className='column is-2'>
+                <br />
+                {wordsToPronounce.length > 0 && (
+                    <CurrentChallenge {...wordsToPronounce[0]} />
+                )}
+                <div className='container is-flex'>
+                    {wordsToPronounce.length > 0 ? (
+                        [...wordsToPronounce].slice(1).map((word, key) => (
+                            <figure className='image is-128x128'>
                                 <img
-                                    style={{ width: '100%', height: 'auto' }}
+                                    key={key}
                                     alt={word.text}
                                     src={word.image.file.url}
                                 />
-                            </div>
+                            </figure>
                         ))
                     ) : (
                         <p>BRA JOBBAT!</p>
                     )}
                 </div>
-            </section>
+            </article>
         </>
     )
 }
