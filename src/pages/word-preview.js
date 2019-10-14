@@ -5,13 +5,13 @@ import Layout from '../components/layout'
 
 const WordPreviewPage = () => {
 	const [word, setWord] = useState(null)
-	const client = createClient({
-		space: process.env.SPACE_ID,
-		accessToken: process.env.PREVIEW_TOKEN,
-		host: `preview.contentful.com`
-	})
 
 	useEffect(() => {
+		const client = createClient({
+			space: process.env.SPACE_ID,
+			accessToken: process.env.PREVIEW_TOKEN,
+			host: `preview.contentful.com`
+		})
 		const url = new URL(window.location.href)
 		const token = url.searchParams.get('token')
 		if (token) {
